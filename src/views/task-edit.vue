@@ -6,7 +6,7 @@
         Title:<input type="text" v-model="taskToEdit.title">
         Importance:<input min="1" max="3" type="number" v-model="taskToEdit.importance">
         Done at:{{ taskToEdit.doneAt ? new Date(taskToEdit.doneAt).toLocaleTimeString('en-US') : 'Incomplete' }}
-        <button class="btn-save">Save</button>
+        <button class="btn-">Save</button>
     </form>
 </template>
 
