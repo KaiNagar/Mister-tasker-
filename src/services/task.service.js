@@ -3,13 +3,14 @@ export const taskService = {
 }
 
 
-function getEmptyTask(){
+function getEmptyTask() {
+
     return {
-        title:'',
-        description:'',
+        title: '',
+        description: '',
         createdAt: Date.now(),
-        doneAt:null,
-        importance:null,
-        status:'in-progress'
+        doneAt: null,
+        importance: 1,
+        status: 'in-progress'
     }
 }
