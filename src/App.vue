@@ -1,23 +1,38 @@
-<script setup></script>
-
 <template>
   <section>
     <h1>this is app</h1>
+    <task-list :tasks="tasks" />
   </section>
 </template>
 
 <script>
 import { firebaseService } from './services/firebase.service'
+import taskList from './components/task-list.vue'
 
 export default {
-  components: {},
+  components: { taskList },
   data() {
-    return {}
+    return {
+      tasks: null,
+    }
   },
-  methods: {},
-  computed: {},
-  created() {
-    firebaseService.onInit()
+  methods: {
+    update(tasks) {
+      console.log(tasks);
+      this.tasks = tasks
+    },
+  },
+  computed: {
+    // async tasks() {
+    //   const tasks = await firebaseService.query()
+    //   console.log(tasks)
+    //   return tasks
+    // },
+  },
+  async created() {
+    this.tasks = await firebaseService.query()
+    this.update = firebaseService.onInit(this.update)
+    console.log(this.update);
   },
 }
 </script>

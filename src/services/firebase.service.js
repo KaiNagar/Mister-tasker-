@@ -1,20 +1,23 @@
 export const firebaseService = {
-    onInit,
+  query,
+  removeTask,
+  addTask,
+  onInit
 }
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import {
-    getFirestore,
-    collection,
-    getDocs,
-    addDoc,
-    deleteDoc,
-    doc,
-    onSnapshot,
-    getDoc,
-    updateDoc,
-  } from 'firebase/firestore'
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  getDoc,
+  updateDoc,
+} from 'firebase/firestore'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -35,20 +38,52 @@ const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
 
 // init services
-const db = getFirestore()
+const db = getFirestore(app)
 
 // collection ref
 const colRef = collection(db, 'tasks')
 
-// get collection data when page is loaded.
+// const unsub = onSnapshot(doc(db, 'cities', 'SF'), (doc) => {
+//   console.log('Current data: ', doc.data())
+// })
 
-function onInit() {
-  // real-time collection data
-  onSnapshot(colRef, (snapshot) => {
+function onInit(cb) {
+  return onSnapshot(colRef, (snapshot) => {
     console.log('snapshot :>> 123', snapshot)
     const tasks = snapshot.docs.map((doc) => {
       return { id: doc.id, ...doc.data() }
     })
-    console.log(tasks);
+    cb(tasks)
   })
+}
+
+// get collection data when page is loaded.
+async function query() {
+  const snapShot = await getDocs(colRef)
+  const tasks = snapShot.docs.map((doc) => {
+    return { id: doc.id, ...doc.data() }
+  })
+  return tasks
+}
+
+//removing task from collection
+function removeTask(taskId) {
+  const docRef = doc(db, 'tasks', taskId)
+  deleteDoc(docRef)
+    .then(() => {
+      console.log('task was successfully deleted.')
+    })
+    .catch((err) => {
+      console.error('err :>> ', err)
+    })
+}
+
+function addTask(task) {
+  addDoc(colRef, task)
+    .then(() => {
+      console.log('task added successfully')
+    })
+    .catch((err) => {
+      console.error('err :>> ', err)
+    })
 }
