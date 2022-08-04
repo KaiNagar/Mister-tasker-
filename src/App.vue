@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1>this is app</h1>
+    <h3>this is app</h3>
     <task-list :tasks="tasks" />
     <router-view />
   </section>
