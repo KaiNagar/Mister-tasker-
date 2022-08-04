@@ -2,7 +2,8 @@ export const firebaseService = {
   query,
   removeTask,
   addTask,
-  onInit
+  onInit,
+  getById
 }
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
@@ -86,4 +87,11 @@ function addTask(task) {
     .catch((err) => {
       console.error('err :>> ', err)
     })
+}
+
+async function getById(taskId){
+  const docRef = doc(db, 'tasks', taskId)
+  const docSnap = await getDoc(docRef)
+  return docSnap.data()
+
 }

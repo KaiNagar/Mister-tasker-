@@ -10,6 +10,7 @@
     <div class="flex space-between">
       <router-link :to="'/task/' + task.id">Read more</router-link>
       <button @click="removeTask(task.id)">Remove task</button>
+      <router-link :to="'/edit/' + task.id">edit</router-link>
     </div>
   </section>
 </template>

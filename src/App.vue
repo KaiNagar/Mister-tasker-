@@ -2,6 +2,7 @@
   <section>
     <h1>this is app</h1>
     <task-list :tasks="tasks" />
+    <router-view />
   </section>
 </template>
 
